@@ -1,4 +1,4 @@
-# ICD-10 Chapter Codification — Daniel
+# ICD-10 Chapter Codification 
 
 My approach to the UAB-ASHO AI Codification task: assigning an ICD-10 chapter (the first character of the code) to short Spanish/Catalan medical literals.
 
@@ -58,8 +58,8 @@ A fair amount, and it's worth recording:
 
 ## On the ceiling
 
-The score stalls around 0.595 for a concrete reason. The biggest single source of error is telling **diagnoses from procedures**: in a two-stage test, if the diagnosis/procedure split were known perfectly, accuracy would jump to ~71% — but predicting it from the short literal text alone only reaches ~75%, and that error rate cancels the gain. The literals are short, noisy, bilingual, and often genuinely ambiguous between a condition and the procedure done about it. That ambiguity isn't recoverable from the text, which is why stronger models and more data don't push past this point.
+The score stalls around 0.595 for a concrete reason. The biggest single source of error is telling **diagnoses from procedures**: in a two-stage test, if the diagnosis/procedure split were known perfectly, accuracy would jump... but predicting it from the short literal text alone only reaches ~75%, and that error rate cancels the gain. The literals are short, noisy, bilingual, and often genuinely ambiguous between a condition and the procedure done about it. That ambiguity isn't recoverable from the text, which is why stronger models and more data don't push past this point.
 
 ## Team
 
-Hermes Barreiro Pena · Daniel Massoud Massoud · Shanthosh
+Daniel Massoud Massoud · Shanthosh · Hermes Barreiro Pena  
