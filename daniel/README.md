@@ -21,7 +21,7 @@ The CodiEsp `.tsv` files come from the CLEF 2020 CodiEsp shared task (BSC), via 
 
 The transformer step needs a GPU, so this is built for **Google Colab** (or Kaggle). On the free Colab T4 a full run is roughly 10–15 minutes.
 
-1. Open `npl_latest_pipeline.ipynb` in Colab and set the runtime to GPU
+1. Open `step6_npl_latest_pipeline.ipynb` in Colab and set the runtime to GPU
    (`Runtime → Change runtime type → T4 GPU`).
 2. Upload the data files so they sit next to the notebook. The notebook expects them under `data/raw/`, so either upload them into that path or run the small setup cell at the top that copies them there. The files you need:
    - `codification_data.csv`, `leaderboard_data.csv`, `icd_d_p_pairs.csv`
