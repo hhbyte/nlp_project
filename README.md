@@ -1,7 +1,7 @@
 # ICD-10 Automated Codification
 
 This project explores automatic ICD-10 codification for short clinical literals in
-Spanish and Catalan. Given a medical literal — a diagnosis, procedure, symptom,
+Spanish and Catalan. Given a medical literal, a diagnosis, procedure, symptom,
 abbreviation, or noisy clinical phrase — the goal is to predict the correct ICD-10
 category for the ASHO/UAB NLP project and its Kaggle-style leaderboard.
 
@@ -61,11 +61,11 @@ experiments and notebooks; data, reference material, presentations, and the repo
 are shared at the root.
 
 ```text
-data/                              Original competition and reference CSV files.
+data/                              Original competition and reference CSV files with the pre-processed ones that we had.
 information_files_from_campus_virtual/   Task slides, baseline notes, ICD-coding background.
-presentations/                     Project presentations and pipeline summaries.
+presentations/                     Project presentations.
 report/                            Final project report.
-daniel/                            Member work (see folder README).
+daniel/                            Member work.
 hermes/                            Member work.
 Shanthosh/                         Member work.
 ```
