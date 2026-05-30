@@ -1,6 +1,6 @@
 # ICD-10 Chapter Codification 
 
-My approach to the UAB-ASHO AI Codification task: assigning an ICD-10 chapter (the first character of the code) to short Spanish/Catalan medical literals.
+our approach to the UAB-ASHO AI Codification task: assigning an ICD-10 chapter (the first character of the code) to short Spanish/Catalan medical literals.
 
 The final model is a blend of a classical TF-IDF ensemble and a fine-tuned Spanish clinical transformer, with the blend weight tuned directly on the leaderboard. It scored **0.595** on the public leaderboard, up from the **0.572** baseline we started with.
 
@@ -62,4 +62,4 @@ The score stalls around 0.595 for a concrete reason. The biggest single source o
 
 ## Team group 4
 
-Daniel Massoud Massoud · Shanthosh · Hermes Barreiro Pena  
+Daniel Massoud · Shanthosh · Hermes Barreiro Pena  
