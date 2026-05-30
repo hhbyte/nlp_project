@@ -30,7 +30,7 @@ The transformer step needs a GPU, so this is built for **Google Colab** (or Kagg
 
 The notebook writes its submission CSVs to `output/submissions/`. Download the best one and upload it to Kaggle.
 
-### One Colab gotcha
+### google colab
 
 The first cell installs/upgrades `transformers`, `datasets`, and `pyarrow`. After it runs, **restart the session once** (`Runtime → Restart session`) and then run from the top — otherwise Colab keeps the old `pyarrow` loaded and you get a `pyarrow.lib.IpcReadOptions size changed` error on `from datasets import Dataset`. Restarting after the install fixes it.
 
@@ -50,16 +50,16 @@ The first cell installs/upgrades `transformers`, `datasets`, and `pyarrow`. Afte
 
 A fair amount, and it's worth recording:
 
-- **Exact / fuzzy match override.** The obvious idea — if a leaderboard literal exactly matches a training literal, just reuse its code — actually *lowered* the score. Around 57% of repeated literals map to more than one chapter, because the same short phrase gets coded differently depending on report context. So we let the classifier decide instead of overriding it.
+- **Exact / fuzzy match override.** The obvious idea, if a leaderboard literal exactly matches a training literal, just reuse its code — actually *lowered* the score. Around 57% of repeated literals map to more than one chapter, because the same short phrase gets coded differently depending on report context. So we let the classifier decide instead of overriding it.
 - **Bigger / multilingual models.** `xlm-roberta-base` did worse than the Spanish biomedical model (0.355 vs 0.502 standalone). Domain knowledge mattered more than multilingual coverage.
-- **More external data.** Adding the full 179K reference descriptions to training, and adding CodiEsp, barely moved the blended score (about +0.00). Both slightly *lowered* the transformer's standalone accuracy — the outside text reads differently from the competition's literals.
+- **More external data.** Adding the full 179K reference descriptions to training, and adding CodiEsp, barely moved the blended score (about +0.00). Both slightly *lowered* the transformer's standalone accuracy, the outside text reads differently from the competition's literals.
 - **Seed-averaging the transformer.** Averaging three runs tied the single run; the runs were making the same predictions, so there was nothing to average out.
-- **Class-weighting toward procedures.** Boosting the numeric (procedure) chapters raised procedure accuracy and dropped diagnosis accuracy by the same amount — a see-saw, with no net gain.
+- **Class-weighting toward procedures.** Boosting the numeric (procedure) chapters raised procedure accuracy and dropped diagnosis accuracy by the same amount..
 
 ## On the ceiling
 
 The score stalls around 0.595 for a concrete reason. The biggest single source of error is telling **diagnoses from procedures**: in a two-stage test, if the diagnosis/procedure split were known perfectly, accuracy would jump... but predicting it from the short literal text alone only reaches ~75%, and that error rate cancels the gain. The literals are short, noisy, bilingual, and often genuinely ambiguous between a condition and the procedure done about it. That ambiguity isn't recoverable from the text, which is why stronger models and more data don't push past this point.
 
-## Team
+## Team group 4
 
 Daniel Massoud Massoud · Shanthosh · Hermes Barreiro Pena  
