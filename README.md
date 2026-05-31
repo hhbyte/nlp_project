@@ -144,4 +144,4 @@ first-character category prediction with a biomedical Spanish RoBERTa model.
 
 ## Team
 
-Hermes Barreiro Pena · Daniel Massoud Massoud · Shanthosh
+Hermes Barreiro Pena · Daniel Massoud · Shanthosh
