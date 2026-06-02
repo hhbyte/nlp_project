@@ -16,8 +16,7 @@ Start here:
 - `best_submission/best_submission_pipeline.ipynb` - best reproducible pipeline.
 - `best_submission/output/submissions/codi_a20.csv` - archived best submission.
 
-The exploratory work is preserved in `archive/`, but the recommended code path
-for teachers is `best_submission/`.
+The past exploratory work is preserved in `archive/`.
 
 ## Repository Structure
 
@@ -94,9 +93,3 @@ Kaggle. The classical section can run locally.
 The final report PDF is available at `report/fnlp_project_report.pdf`. The
 LaTeX source is in `report/latex/` and can be recompiled using the template
 utilities in `report/latex/utils/`.
-
-## Archive
-
-`archive/` contains the development notebooks, intermediate outputs, and
-teammate experiment folders. It is included for transparency and provenance,
-not as the main reproduction path.
