@@ -12,7 +12,7 @@ public Kaggle score obtained by the final system was **0.595**.
 
 Start here:
 
-- `report/final_report/fnlp_project_report.pdf` - final written report.
+- `report/fnlp_project_report.pdf` - final written report.
 - `best_submission/best_submission_pipeline.ipynb` - best reproducible pipeline.
 - `best_submission/output/submissions/codi_a20.csv` - archived best submission.
 
@@ -27,8 +27,8 @@ for teachers is `best_submission/`.
 ├── requirements.txt
 ├── report/
 │   ├── README.md
-│   └── final_report/
-│       ├── fnlp_project_report.pdf
+│   ├── fnlp_project_report.pdf
+│   └── latex/
 │       ├── fnlp_project_report.tex
 │       └── utils/
 ├── best_submission/
@@ -91,9 +91,9 @@ Kaggle. The classical section can run locally.
 
 ## Report
 
-The final report is self-contained in `report/final_report/`. The PDF is ready
-to read, and the `.tex` file can be recompiled using the template utilities in
-`report/final_report/utils/`.
+The final report PDF is available at `report/fnlp_project_report.pdf`. The
+LaTeX source is in `report/latex/` and can be recompiled using the template
+utilities in `report/latex/utils/`.
 
 ## Archive
 
