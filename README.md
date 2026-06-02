@@ -1,12 +1,8 @@
 # ICD-10 Chapter Codification
 
-This repository contains the final submission for the Fundamentals of NLP
-project on automatic ICD-10 chapter codification of short Spanish/Catalan
-clinical literals.
+This repository contains the final submission for the Fundamentals of NLP project on automatic ICD-10 chapter codification of short Spanish/Catalan clinical literals.
 
-The main result is a probability blend between a strong classical TF-IDF
-ensemble and a fine-tuned Spanish biomedical-clinical transformer. The best
-public Kaggle score obtained by the final system was **0.595**.
+The main result is a probability blend between a strong classical TF-IDF ensemble and a fine-tuned Spanish biomedical-clinical transformer. The best public Kaggle score obtained by the final system was **0.595**.
 
 ## Main Entry Points
 
@@ -77,24 +73,19 @@ Open:
 best_submission/best_submission_pipeline.ipynb
 ```
 
-Run it from inside the `best_submission/` folder. The notebook expects the
-shared data at:
+Run it from inside the `best_submission/` folder. The notebook expects the shared data at:
 
 ```text
 ../data/raw/
 ../data/codiesp/
 ```
 
-The transformer stage is intended for a GPU runtime such as Google Colab or
-Kaggle. The classical section can run locally.
+The transformer stage is intended for a GPU runtime such as Google Colab or Kaggle. The classical section can run locally.
 
 ## Report
 
-The final report PDF is available at `report/fnlp_project_report.pdf`. The
-LaTeX source is in `report/latex/` and can be recompiled using the template
-utilities in `report/latex/utils/`.
+The final report PDF is available at `report/fnlp_project_report.pdf`. The LaTeX source is in `report/latex/` and can be recompiled using the template utilities in `report/latex/utils/`.
 
 ## Data Note
 
-The `data/` folder is included because the files are small enough for GitHub,
-and keeping them here just makes it easier.
+The `data/` folder is included because the files are small enough for GitHub, and keeping them here just makes it easier.

@@ -1,8 +1,6 @@
 # Hermes Experiments
 
-This folder collects the trial-and-error work as notebooks. The original Python
-scripts and reusable package files were archived into notebook form, then removed
-from the project root.
+This folder collects the trial-and-error work as notebooks. The original Python scripts and reusable package files were archived into notebook form, then removed from the project root.
 
 Notebook order:
 
