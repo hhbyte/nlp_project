@@ -1,147 +1,102 @@
-# ICD-10 Automated Codification
+# ICD-10 Chapter Codification
 
-This project explores automatic ICD-10 codification for short clinical literals in
-Spanish and Catalan. Given a medical literal, a diagnosis, procedure, symptom,
-abbreviation, or noisy clinical phrase — the goal is to predict the correct ICD-10
-category for the ASHO/UAB NLP project and its Kaggle-style leaderboard.
+This repository contains the final submission for the Fundamentals of NLP
+project on automatic ICD-10 chapter codification of short Spanish/Catalan
+clinical literals.
 
-The course target, `y_category`, is the first character of the ICD-10 code, so the
-task is a multi-class classification over the chapter labels. The leaderboard scores
-a strict comparison on that first character.
+The main result is a probability blend between a strong classical TF-IDF
+ensemble and a fine-tuned Spanish biomedical-clinical transformer. The best
+public Kaggle score obtained by the final system was **0.595**.
 
-The team's approach was to develop complementary methods in parallel and combine
-their strengths: exact and fuzzy matching, retrieval methods, traditional linear
-classifiers, and a fine-tuned Spanish clinical transformer. Different methods are good
-at different parts of the problem (exact repeats, typo variants, rare codes, common
-categories, noisy multilingual text), and the strongest result came from blending a
-classical ensemble with a transformer.
+## Main Entry Points
 
-## Motivation
+Start here:
 
-ICD codes standardise clinical information for reporting, health management, claims
-processing, and disease-trend analysis. Manual coding is slow and error-prone,
-especially for short, noisy, ambiguous input that uses local abbreviations. This
-project focuses on the harder short-literal setting: instead of coding a full report,
-the model receives a brief literal and must infer the correct code category.
+- `report/final_report/fnlp_project_report.pdf` - final written report.
+- `best_submission/best_submission_pipeline.ipynb` - best reproducible pipeline.
+- `best_submission/output/submissions/codi_a20.csv` - archived best submission.
 
-## Task Summary
-
-- **Input:** one short clinical literal from the leaderboard/test data.
-- **Training signal:** literal–code pairs from `codification_data.csv`.
-- **Reference knowledge:** official ICD descriptions and diagnosis/procedure flags
-  from `icd_d_p_pairs.csv`.
-- **Output:** `y_category`, the first character of the code.
-- **Evaluation:** Kaggle leaderboard, with a public/private split.
-
-## Key Challenges
-
-- **Long-tail labels:** many ICD codes appear only a few times in training.
-- **Noisy literals:** abbreviations, typos, mixed Spanish/Catalan forms, case
-  variation, and incomplete phrases.
-- **Ambiguity:** the same cleaned literal can map to more than one category, so the
-  text alone is sometimes insufficient.
-- **Mixed structures:** diagnosis and procedure codes have different formats.
-- **Unseen codes:** many leaderboard literals are not exact repeats of training.
-
-## Data
-
-| File | Rows | Description |
-| --- | ---: | --- |
-| `codification_data.csv` | 13,700 | Training literals with known `Code` labels. |
-| `leaderboard_data.csv` | 6,667 | Leaderboard/test literals (`id`, `Literal`). |
-| `icd_d_p_pairs.csv` | 179,742 | ICD reference table (`Code`, `D_P`, `Description`). |
-
-The raw training set has 4,059 unique codes. Among the rows matched to the ICD-10
-reference, roughly 7,932 are diagnosis codes and 2,011 are procedure codes.
+The exploratory work is preserved in `archive/`, but the recommended code path
+for teachers is `best_submission/`.
 
 ## Repository Structure
 
-This is a shared team repository. Each member's folder contains their own
-experiments and notebooks; data, reference material, presentations, and the report
-are shared at the root.
-
 ```text
-data/                              Original competition and reference CSV files with the pre-processed ones that we had.
-information_files_from_campus_virtual/   Task slides, baseline notes, ICD-coding background.
-presentations/                     Project presentations.
-report/                            Final project report.
-daniel/                            Member work.
-hermes/                            Member work.
-Shanthosh/                         Member work.
+.
+├── README.md
+├── requirements.txt
+├── report/
+│   ├── README.md
+│   └── final_report/
+│       ├── fnlp_project_report.pdf
+│       ├── fnlp_project_report.tex
+│       └── utils/
+├── best_submission/
+│   ├── README.md
+│   ├── best_submission_pipeline.ipynb
+│   └── output/
+│       └── submissions/
+│           └── codi_a20.csv
+├── data/
+│   ├── README.md
+│   ├── raw/
+│   ├── codiesp/
+│   └── processed/
+├── archive/
+│   ├── README.md
+│   ├── daniel/
+│   ├── hermes/
+│   └── shanthosh/
+├── presentations/
+└── information_files_from_campus_virtual/
 ```
 
-Each member folder has its own README or notebook describing that member's
-specific experiments and results.
+## Best Pipeline Summary
 
-## What We Built and How We Improved Accuracy
+The final pipeline:
 
-The work progressed in two broad phases. The classical exploration established a
-solid baseline; adding a transformer and blending pushed past it.
+1. Cleans and normalises the literals.
+2. Trains a classical ensemble using character and word TF-IDF features.
+3. Fine-tunes `PlanTL-GOB-ES/roberta-base-biomedical-clinical-es`.
+4. Adds external CodiEsp ICD-coded examples for the transformer stage.
+5. Blends classical and transformer probabilities.
+6. Writes Kaggle-ready submissions to `best_submission/output/submissions/`.
 
-### Phase 1 — Classical exploration
+The notebook reads shared data from the repository-level `data/` folder.
 
-We started by standardising the text (lowercasing, accent removal, punctuation
-normalisation, whitespace cleanup) and deriving `y_category` from the first character
-of each code. Flagged ICD-9-style rows were set aside, since their first digit does
-not correspond to the ICD-10 category.
+## How to Run
 
-We then compared a wide range of classical approaches:
+Install the Python dependencies:
 
-- **Matching and retrieval** — exact matching, fuzzy matching, semantic embedding
-  retrieval, ICD-description retrieval, literal-to-literal retrieval, KNN and
-  top-k voting, centroid retrieval, and BM25. These were useful diagnostics but
-  limited on their own: literals are very short, so fuzzy and embedding methods
-  introduced noise, and similar text often belonged to different categories.
-- **Supervised models** — after finding full-code prediction too hard (long-tail
-  labels), we predicted the category directly. A **character + word TF-IDF Linear
-  SVM** became the strongest classical model, because character n-grams capture
-  spelling variants, prefixes, suffixes, and abbreviations. This absorbed most of
-  what exact/fuzzy matching was designed for.
-- **Feature engineering and rules** — a **selective context override** (a few
-  reliable patterns such as *puerperio* and *fetal*) added domain signal without
-  overcorrecting and became one of the strongest classical submissions. Broad
-  context flags, class weighting, and manual rescue rules were rejected for hurting
-  the leaderboard or overfitting the validation split.
-- **ICD-9 mapping** — official GEM ICD-9→ICD-10 mappings, applied as a constrained
-  override on top of selective context, gave a small gain; broad mappings reduced it.
+```powershell
+pip install -r requirements.txt
+```
 
-The best classical configuration reached a public leaderboard score of about **0.572**.
+Open:
 
-### Phase 2 — Transformer augmentation and blend
+```text
+best_submission/best_submission_pipeline.ipynb
+```
 
-Phase 1 plateaued, so we added a neural component:
+Run it from inside the `best_submission/` folder. The notebook expects the
+shared data at:
 
-- **Clinical transformer** — fine-tuned `PlanTL-GOB-ES/roberta-base-biomedical-clinical-es`
-  (Spanish biomedical-clinical RoBERTa) as a chapter classifier with a class-weighted
-  loss, using additional external ICD-coded data from the CodiEsp corpus.
-- **Probability blend** — instead of overriding, we averaged the two models'
-  probabilities: `final = α · transformer + (1 − α) · classical`, predicting the
-  argmax. Because local validation did not track the leaderboard reliably, **α was
-  tuned directly on the leaderboard** (best around **α ≈ 0.24**). Light Spanish
-  stopword removal and stemming and a re-tuned SVM regularisation were folded in.
+```text
+../data/raw/
+../data/codiesp/
+```
 
-The blended system reached a public leaderboard score of **0.595**, improving on the
-0.572 classical baseline. Each component was weaker alone (classical ≈ 0.56,
-transformer ≈ 0.50), so the gain came from combining their complementary strengths.
+The transformer stage is intended for a GPU runtime such as Google Colab or
+Kaggle. The classical section can run locally.
 
-### The practical ceiling
+## Report
 
-An error analysis localised the main remaining error to the **diagnosis-versus-procedure
-ambiguity** of short literals. In a two-stage test, knowing that distinction perfectly
-would raise accuracy to ~71%, but predicting it from the literal alone reaches only ~75%,
-which cancels most of the gain. The limiting factor is information not present in the
-short text — which is why stronger models and more data did not break past this point.
+The final report is self-contained in `report/final_report/`. The PDF is ready
+to read, and the `.tex` file can be recompiled using the template utilities in
+`report/final_report/utils/`.
 
-## Reference Material
+## Archive
 
-- `presentations/` — challenge analysis, the proposed cascade, and follow-up summaries.
-- `report/` — the final written project report.
-- `information_files_from_campus_virtual/` — ASHO/UAB task context, the deep learning
-  baseline formulation, and a background survey on automated ICD coding.
-
-The deep learning baseline reports validation accuracy around 0.56–0.57 for
-first-character category prediction with a biomedical Spanish RoBERTa model.
-
-## Team
-
-Hermes Barreiro Pena · Daniel Massoud · Shanthosh
+`archive/` contains the development notebooks, intermediate outputs, and
+teammate experiment folders. It is included for transparency and provenance,
+not as the main reproduction path.
