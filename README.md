@@ -93,3 +93,8 @@ Kaggle. The classical section can run locally.
 The final report PDF is available at `report/fnlp_project_report.pdf`. The
 LaTeX source is in `report/latex/` and can be recompiled using the template
 utilities in `report/latex/utils/`.
+
+## Data Note
+
+The `data/` folder is included because the files are small enough for GitHub,
+and keeping them here just makes it easier.
